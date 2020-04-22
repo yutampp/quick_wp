@@ -1,0 +1,34 @@
+version: '3'
+services:
+
+  wordpress:
+    image: wordpress
+    container_name: wp
+    restart: always
+    environment:
+      VIRTUAL_HOST: w.yutamptech.com
+    depends_on:
+      - mysql
+      - nginx
+    links:
+      - mysql:db
+
+  mysql:
+    image: mariadb
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: hogehoge333
+      MYSQL_DATABASE: wpdb
+      MYSQL_USER: yutamp
+      MYSQL_PASSWORD: hogehoge123
+
+  nginx:
+    image: jwilder/nginx-proxy
+    volumes:
+      -  /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - 80:80
+
+
+
